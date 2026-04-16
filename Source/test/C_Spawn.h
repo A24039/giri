@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Generate.generated.h"
+#include "C_Spawn.generated.h"
 
 UCLASS()
-class TEST_API AGenerate : public AActor
+class TEST_API AC_Spawn : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AGenerate();
+	AC_Spawn();
 
 protected:
 	// Called when the game starts or when spawned

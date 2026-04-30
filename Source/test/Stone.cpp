@@ -1,4 +1,6 @@
 #include "Stone.h"
+#include "MyPlayer.h"
+#include "Kismet/GameplayStatics.h"
 
 AStone::AStone()
 {
@@ -12,8 +14,19 @@ void AStone::BeginPlay()
 
 void AStone::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+    Super::Tick(DeltaTime);
 
-	// 前方向に移動
-	AddActorWorldOffset(-FVector::ForwardVector * Speed * DeltaTime);
+    float CurrentSpeed = Speed;
+
+    // プレイヤーを探してHPに応じた倍率をかける
+    AMyPlayer* Player = Cast<AMyPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+    if (Player)
+    {
+        // 基本スピード × (HP/MaxHP の割合) 
+        // ※ 0になると止まってしまうので、1.0 + HPRatio などで調整するのもアリです
+        CurrentSpeed = Speed * (1.0f + (Player->GetHP()* 2));
+    }
+
+    // 計算したスピードで移動[cite: 5]
+    AddActorWorldOffset(-FVector::ForwardVector * CurrentSpeed * DeltaTime);
 }
